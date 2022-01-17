@@ -150,37 +150,7 @@
         background-color: #222222;
     }
     
-    .style-menu-scroll {
-        height: 100vh;
-    }
-    .style-menu-scroll::-webkit-scrollbar {
-        width: 8px;
-    }
-    .style-menu-scroll::-webkit-scrollbar-track {
-        background-color: #28272B;
-        border-radius: 100px;
-    }
-    
-    .style-menu-scroll::-webkit-scrollbar-thumb {
-        background-color:#979794;
-        border-radius: 100px;
-    }
-
-    .style-detail-scroll {
-        height: 100vh;
-    }
-    .style-detail-scroll::-webkit-scrollbar {
-        width: 8px;
-    }
-    .style-detail-scroll::-webkit-scrollbar-track {
-        background-color: #28272B;
-        border-radius: 100px;
-    }
-    
-    .style-detail-scroll::-webkit-scrollbar-thumb {
-        background-color:#979794;
-        border-radius: 100px;
-    }
+ 
     
     .input-header {
         padding: 0 50px;
@@ -191,15 +161,29 @@
     }
     input:focus + .search-btn {display: none;}
     
+    .scroll-menu::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    .scroll-menu::-webkit-scrollbar-track {
+        background-color: #222222;
+        border-radius: 100px;
+    }
+    
+    .scroll-menu::-webkit-scrollbar-thumb {
+        background-color: grey;
+        border-radius: 100px;
+    }
+    
 </style>
 <body >
 <!-- Main -->
-<div>
-    <div class="px-4 md:px-0 lg:flex">
+<div class="content-scroll">
+    <div class="h-screen px-4 md:px-0 lg:flex">
     <!-- Menu -->
-        <div class="hidden lg:block w-[100px] lg:w-[300px] flex-none flex flex-col" >
+        <div class=" hidden lg:block w-[100px] lg:w-[300px] flex-none flex flex-col" >
             <!-- Avatar -->
-                <div style="height:100vh;" class="menu-scroll style-menu-scroll fixed bg-product">
+                <div class="scroll-menu fixed h-full overflow-auto bg-product">
                     <div class="lg:px-42 lg:pt-50 flex flex-col items-center justify-center ">
                         <div class="w-98 h-98"> 
                             <img src="./images/grid-col-1/Avatar.png" 
@@ -296,13 +280,11 @@
                 
                 </div>
         </div>
-        
      <!-- Mobile menu  -->
-
-     <div style="z-index: 1;" class="sidebar flex lg:hidden w-[80%] py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full  transition duration-200 ease-in-out" >
+        
+     <div style="z-index: 1;" class="sidebar flex lg:hidden w-full fixed px-2  inset-y-0 left-0 transform -translate-x-full  transition duration-200 ease-in-out" >
         <!-- Avatar -->   
-        <div style="height: 100vh;" class=" w-full overflow-auto bg-product">
-            
+        <div class="pt-5 h-full w-full overflow-auto bg-product">
             <div class="px-30 pt-4 flex flex-col items-center justify-center ">
                 <div class="w-98 h-98"> 
                     <img src="./images/grid-col-1/Avatar.png" 
@@ -396,10 +378,14 @@
                 </div>
             </div>
         </div>
-        
+        <div class="w-[20%]">
+            <button class="p-30 btn-close-menu">
+                <ion-icon class="w-10 h-45 text-white" name="close-outline"></ion-icon>
+            </button>
+        </div>
     </div>    
     <!-- Content -->
-        <div class="container relative flex-grow lg:px-5 bg-body pb-26">
+        <div class="content-js container flex-grow lg:px-5 bg-body pb-26">
             <div class="pt-25 flex gap-x-25">
                 <!-- Search -->
                 <div class="lg:pt-25 flex-grow flex items-center">
@@ -416,8 +402,7 @@
                 <!-- Mobile menu button -->
                 <div  class="lg:hidden flex items-center">
                     <button class="outline-none mobile-menu-button  ">
-                        <ion-icon class="icon-btn-menu w-10 h-45 text-white px-[8px]  " name="menu-outline"></ion-icon>
-                        <ion-icon class="hidden icon-close-menu w-10 h-45 text-white px-[5px] h" name="close-outline"></ion-icon>
+                        <ion-icon class="icon-btn-menu w-10 h-45 text-white  " name="menu-outline"></ion-icon>
                     </button>
                 </div>
             
@@ -858,9 +843,9 @@
             </div>
         </div >
     <!-- Detail product -->
-        <div class="hidden xl:block w-[400px] flex-none">
-            <div class="pr-3 fixed">
-                <div class="detail-scroll style-detail-scroll ">
+        <div class="hidden xl:block w-[400px] flex-none ">
+            <div class="scroll-menu h-full overflow-auto fixed">
+                <div class=" ">
     
                     <div class="pt-37">
                         <p class="text-white font-bold text-2xl pb-[10px]">Información del Juguete</p>
@@ -940,37 +925,23 @@
 </div>
 <script>
 
-    const menuScroll = document.querySelector('.menu-scroll');
-    const detailScroll  = document.querySelector('.detail-scroll');
-    const styleMenuScroll = document.querySelector('.style-menu-scroll');
-    const styleDetailScroll = document.querySelector('.style-detail-scroll');
-    function openScroll() {
-        styleMenuScroll.style.overflow = 'auto';
-    }
-    function hiddenScroll(){
-        styleMenuScroll.style.overflow = 'hidden';
-    }
-    menuScroll.addEventListener('mouseout',hiddenScroll);
-    menuScroll.addEventListener('mouseover',openScroll);
-
-    detailScroll.addEventListener('mouseout',() => {
-        styleDetailScroll.style.overflow = 'hidden';
-    });
-    detailScroll.addEventListener('mouseover',() => {
-        styleDetailScroll.style.overflow = 'auto';
-        
-    });
-
     
   const mobileBtn = document.querySelector('.mobile-menu-button');
   const sideBar = document.querySelector('.sidebar');
   const iconBtnMenu = document.querySelector('.icon-btn-menu');
-  const iconClsMenu = document.querySelector('.icon-close-menu');
-  
+  const mobileClsMenu = document.querySelector('.btn-close-menu');
+  const bodyScroll = document.querySelector('.content-scroll');
   mobileBtn.addEventListener('click',() => {
+      bodyScroll.classList.toggle('overflow-y-hidden');
       sideBar.classList.toggle('-translate-x-full');
       iconBtnMenu.classList.toggle('hidden');
       iconClsMenu.classList.toggle('hidden');
+    
+  })
+  mobileClsMenu.addEventListener('click',() => {
+    bodyScroll.classList.toggle('overflow-y-hidden');
+    sideBar.classList.toggle('-translate-x-full');
+    iconBtnMenu.classList.toggle('hidden');
   })
 </script>
 </body>
